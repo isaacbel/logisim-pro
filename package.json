@@ -1,0 +1,65 @@
+{
+  "name": "logisim-pro",
+  "version": "1.0.0",
+  "description": "Professional Digital Logic Simulator, Boolean Algebra, K-Maps, and Intel 8086 Computer Architecture Laboratory",
+  "author": {
+    "name": "Logisim Pro Educational Suite",
+    "email": "support@logisimpro.app"
+  },
+  "homepage": "https://logisimpro.app",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist-electron/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run build:renderer && electron-builder",
+    "build:renderer": "tsc && vite build",
+    "build:web": "tsc && vite build --mode web",
+    "build:electron": "vite build && vite-plugin-electron/scripts/build-electron.mjs",
+    "dist:win": "npm run build:renderer && electron-builder --win nsis --config electron-builder.json5",
+    "dist:portable": "npm run build:renderer && electron-builder --win portable --config electron-builder.json5",
+    "dist:all": "npm run build:renderer && electron-builder --win nsis portable --config electron-builder.json5",
+    "pack:dir": "npm run build:renderer && electron-builder --dir --config electron-builder.json5",
+    "lint": "eslint src electron --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "test": "vitest",
+    "test:e2e": "playwright test",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "comlink": "^4.4.0",
+    "eventemitter3": "^5.0.0",
+    "framer-motion": "^11.0.0",
+    "lucide-react": "^0.400.0",
+    "nanoid": "^5.0.0",
+    "pixi.js": "^8.1.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "tailwindcss": "^3.4.0",
+    "zustand": "^4.5.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.45.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "autoprefixer": "^10.4.0",
+    "cross-env": "^7.0.3",
+    "electron": "^31.0.0",
+    "electron-builder": "^24.0.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.7",
+    "jsdom": "^24.0.0",
+    "postcss": "^8.4.0",
+    "typescript": "^5.4.0",
+    "vite": "^5.3.0",
+    "vite-plugin-electron": "^0.28.0",
+    "vitest": "^1.6.0"
+  },
+  "build": {
+    "extends": "./electron-builder.json5"
+  }
+}

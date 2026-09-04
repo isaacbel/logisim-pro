@@ -1,0 +1,363 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ============================================================================
+   TAILWIND CSS DIRECTIVES — REQUIRED FOR ALL UTILITY CLASSES
+   ============================================================================ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================================
+   CSS VARIABLES - THEME SYSTEM
+   ============================================================================ */
+
+:root {
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Accent */
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --accent-glow: #3b82f640;
+}
+
+/* Dark theme (default) */
+html[data-theme="dark"], html:not([data-theme]) {
+  --canvas-bg: #0f1117;
+  --toolbar-bg: #111827;
+  --sidebar-bg: #0d1117;
+  --panel-bg: #111827;
+  --statusbar-bg: #0d1117;
+  --surface-1: #1f2937;
+  --surface-2: #1a2332;
+  --surface-hover: #2d3748;
+  --border: #1f2937;
+  --text-primary: #f9fafb;
+  --text-secondary: #d1d5db;
+  --text-muted: #6b7280;
+  --grid-color: rgba(255,255,255,0.04);
+  --grid-major-color: rgba(255,255,255,0.07);
+  --glass-bg: rgba(17, 24, 39, 0.92);
+  --wire-low: #3b82f6;
+  --wire-high: #10b981;
+  --wire-unknown: #6b7280;
+  --wire-floating: #f59e0b;
+  --wire-error: #ef4444;
+}
+
+/* Light theme */
+html[data-theme="light"] {
+  --canvas-bg: #f8fafc;
+  --toolbar-bg: #ffffff;
+  --sidebar-bg: #f1f5f9;
+  --panel-bg: #ffffff;
+  --statusbar-bg: #f1f5f9;
+  --surface-1: #e2e8f0;
+  --surface-2: #e9eef5;
+  --surface-hover: #cbd5e1;
+  --border: #e2e8f0;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --grid-color: rgba(0,0,0,0.05);
+  --grid-major-color: rgba(0,0,0,0.1);
+  --glass-bg: rgba(248, 250, 252, 0.95);
+  --wire-low: #2563eb;
+  --wire-high: #059669;
+  --wire-unknown: #9ca3af;
+  --wire-floating: #d97706;
+  --wire-error: #dc2626;
+}
+
+/* Glass theme */
+html[data-theme="glass"] {
+  --canvas-bg: #0a0f1e;
+  --toolbar-bg: rgba(15, 20, 40, 0.7);
+  --sidebar-bg: rgba(10, 15, 30, 0.8);
+  --panel-bg: rgba(15, 20, 40, 0.7);
+  --statusbar-bg: rgba(10, 15, 30, 0.8);
+  --surface-1: rgba(255,255,255,0.05);
+  --surface-2: rgba(255,255,255,0.08);
+  --surface-hover: rgba(255,255,255,0.12);
+  --border: rgba(255,255,255,0.08);
+  --text-primary: #e0e7ff;
+  --text-secondary: #a5b4fc;
+  --text-muted: #6b7280;
+  --grid-color: rgba(99,102,241,0.06);
+  --grid-major-color: rgba(99,102,241,0.12);
+  --glass-bg: rgba(15, 20, 60, 0.82);
+  --wire-low: #818cf8;
+  --wire-high: #34d399;
+  --wire-unknown: #6b7280;
+  --wire-floating: #fbbf24;
+  --wire-error: #f87171;
+}
+
+/* ============================================================================
+   RESET & BASE
+   ============================================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  background: var(--canvas-bg);
+  color: var(--text-primary);
+}
+
+/* ============================================================================
+   SCROLLBAR
+   ============================================================================ */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* ============================================================================
+   APP SHELL LAYOUT — Guaranteed to work with or without Tailwind
+   ============================================================================ */
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--canvas-bg);
+  color: var(--text-primary);
+}
+
+.app-main-area {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.app-workspace {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.app-canvas-container {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.app-sidebar-left {
+  width: 260px;
+  min-width: 260px;
+  max-width: 260px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-right: 1px solid var(--border);
+  background: var(--sidebar-bg);
+}
+
+.app-sidebar-right {
+  width: 280px;
+  min-width: 280px;
+  max-width: 280px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-left: 1px solid var(--border);
+  background: var(--sidebar-bg);
+}
+
+.app-toolbar {
+  height: 48px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 6px;
+  border-bottom: 1px solid var(--border);
+  background: var(--toolbar-bg);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.app-statusbar {
+  height: 28px;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 16px;
+  border-top: 1px solid var(--border);
+  background: var(--statusbar-bg);
+  flex-shrink: 0;
+  font-size: 11px;
+}
+
+.app-bottom-panel {
+  flex-shrink: 0;
+  border-top: 1px solid var(--border);
+  background: var(--panel-bg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ============================================================================
+   REUSABLE CLASSES
+   ============================================================================ */
+
+.toolbar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+  flex-shrink: 0;
+}
+
+.toolbar-btn:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+}
+
+.toolbar-btn:active {
+  transform: scale(0.93);
+}
+
+.toolbar-btn.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+.prop-input {
+  width: 100%;
+  padding: 5px 8px;
+  font-size: 12px;
+  font-family: var(--font-sans);
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.prop-input:focus {
+  border-color: var(--accent);
+}
+
+/* Glass card effect */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+/* Pulse animation for running indicator */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.pulse {
+  animation: pulse-dot 1s ease-in-out infinite;
+}
+
+/* Signal glow effects */
+.signal-high { color: var(--wire-high); }
+.signal-low  { color: var(--wire-low); }
+.signal-x    { color: var(--wire-unknown); }
+.signal-z    { color: var(--wire-floating); }
+.signal-err  { color: var(--wire-error); }
+
+/* Canvas cursor states */
+.cursor-crosshair { cursor: crosshair; }
+.cursor-grab      { cursor: grab; }
+.cursor-grabbing  { cursor: grabbing; }
+.cursor-wire      { cursor: cell; }
+
+/* Fade in animation */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out forwards;
+}
+
+/* Glow pulse for running simulation */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 4px var(--accent); }
+  50% { box-shadow: 0 0 12px var(--accent), 0 0 24px var(--accent-glow); }
+}
+
+.glow-running {
+  animation: glow-pulse 1.5s ease-in-out infinite;
+}
+
+/* Welcome overlay */
+.welcome-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.welcome-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px 40px;
+  text-align: center;
+  pointer-events: auto;
+  max-width: 360px;
+  animation: fade-in 0.4s ease-out;
+}

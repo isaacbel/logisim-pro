@@ -1,0 +1,89 @@
+/**
+ * Logisim Pro — electron-builder Distribution Configuration
+ * Produces: Windows NSIS Installer + Windows Portable EXE
+ *
+ * Build commands:
+ *   npm run dist:win       → Logisim-Pro-Setup-x64.exe  (NSIS installer)
+ *   npm run dist:portable  → Logisim-Pro-Portable-x64.exe (Zero-install)
+ *   npm run dist:all       → Both targets
+ *
+ * Code signing: disabled by default (set CSC_LINK + CSC_KEY_PASSWORD for commercial signing)
+ */
+{
+  "appId": "com.logisimpro.app",
+  "productName": "Logisim Pro",
+  "copyright": "Copyright © 2024 Logisim Pro Educational Suite",
+  "files": [
+    "dist/**/*",
+    "dist-electron/**/*",
+    "package.json"
+  ],
+  "directories": {
+    "output": "release",
+    "buildResources": "assets"
+  },
+  "extraMetadata": {
+    "version": "1.0.0"
+  },
+
+  // ─── File Associations (.lpro opens with Logisim Pro) ─────────────────────
+  "fileAssociations": [
+    {
+      "ext": "lpro",
+      "name": "Logisim Pro Project",
+      "description": "Logisim Pro Digital Circuit Project",
+      "role": "Editor",
+      "mimeType": "application/x-logisim-pro"
+    },
+    {
+      "ext": "8086asm",
+      "name": "8086 Assembly Source",
+      "description": "Intel 8086 Assembly Source File",
+      "role": "Editor"
+    }
+  ],
+
+  // ─── Windows ──────────────────────────────────────────────────────────────
+  "win": {
+    "icon": "assets/icon.ico",
+    "signAndEditExecutable": false,
+    "artifactName": "${productName}-${target}-${arch}.${ext}"
+  },
+
+  // ─── NSIS Installer ───────────────────────────────────────────────────────
+  "nsis": {
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true,
+    "allowElevation": true,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "shortcutName": "Logisim Pro",
+    "menuCategory": "Education",
+    "deleteAppDataOnUninstall": false,
+    "displayLanguageSelector": false,
+    "artifactName": "Logisim-Pro-Setup-${arch}.exe"
+  },
+
+  // ─── Portable ─────────────────────────────────────────────────────────────
+  "portable": {
+    "artifactName": "Logisim-Pro-Portable-${arch}.exe",
+    "requestExecutionLevel": "user",
+    "useZip": false
+  },
+
+  // ─── Mac (future) ─────────────────────────────────────────────────────────
+  "mac": {
+    "target": [{ "target": "dmg", "arch": ["x64", "arm64"] }],
+    "category": "public.app-category.education",
+    "icon": "assets/icon.icns",
+    "artifactName": "${productName}-${version}-${arch}.${ext}"
+  },
+
+  // ─── Linux (future) ───────────────────────────────────────────────────────
+  "linux": {
+    "target": ["AppImage", "deb"],
+    "category": "Education",
+    "icon": "assets/icon.png",
+    "artifactName": "${productName}-${version}-${arch}.${ext}"
+  }
+}
